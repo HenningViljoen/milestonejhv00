@@ -8,7 +8,8 @@ import requests
 app = Flask(__name__)
 app.ticker = ''
 
-basicurl = 'https://www.quandl.com/api/v3/datasets/WIKI/FB.json'
+BasicURL1 = 'https://www.quandl.com/api/v3/datasets/WIKI/'
+BasicURL2 = '.json'
 par = {'column_index':'4','start_date':'2017-08-01','end_date':'2017-09-01','collapse':'daily','api_key':'JqvQjVgJ5iSqKswfJ82M'}
 
 
@@ -21,13 +22,14 @@ def index():
         app.ticker = request.form['tickername']
         return redirect('/trendstock')
 
+@app.route('/navigate', methods = ['GET','POST'])
+def navigate():
+    return redirect('/')
+
 @app.route('/trendstock')
 def trendstock(): #remember the function name does not need to match the URL
-    # for clarity (temp variables)
 
-    # prepare some data
-    #x = [1, 2, 3, 4, 5]
-    #y = [6, 7, 2, 4, 5]
+    basicurl = BasicURL1 + app.ticker + BasicURL2
     r = requests.get(basicurl, params=par)
     jsondata = r.json()
     
@@ -38,15 +40,13 @@ def trendstock(): #remember the function name does not need to match the URL
     for i in range(len(dataset)):
         x.append(i)
         y.append(dataset[-i][1])
-        
-    # output to static HTML file
-    #   output_file("trend.html")
+    
 
     # create a new plot with a title and axis labels
-    p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+    p = figure(title= app.ticker + ' stock price for the last month', x_axis_label='x', y_axis_label='y')
 
     # add a line renderer with legend and line thickness
-    p.line(x, y, legend="Temp.", line_width=2)
+    p.line(x, y, legend="Stock price", line_width=2)
 
     # show the results
     #   show(p)
