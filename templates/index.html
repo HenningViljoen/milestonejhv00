@@ -1,21 +1,18 @@
 <!doctype html>
-<title>A short quiz</title>
+<title>Stock trending tool</title>
 <link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_jhv.css')}}'>
 <div class=page>
-  <h1>A short quiz</h1>
+  <h1>Simple stock analysis tool</h1>
   <div class=metanav>
     <h4>
-      You will be asked some questions.
-      Please answer them to the best of your ability.
+      Specify the stock details which you would like to analyze.
     </h4>
 
     <form id='userinfoform_lulu' method='post' action='index_lulu' >
       <p>
-    Name: <input type='text' name='name_lulu' />
+    Stock ticker symbol: <input type='text' name='name_lulu' />
       </p>
-      <p>
-    Age: <input type='text' name='age_lulu' />
-      </p>
+
       <p>
     <input type='submit' value='Submit' />
       </p>
