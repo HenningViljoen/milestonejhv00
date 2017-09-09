@@ -4,13 +4,14 @@ from flask import Flask, render_template, request, redirect
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 import requests
+import pandas as pd
 
 app = Flask(__name__)
 app.ticker = ''
 
 BasicURL1 = 'https://www.quandl.com/api/v3/datasets/WIKI/'
 BasicURL2 = '.json'
-par = {'column_index':'4','start_date':'2017-08-01','end_date':'2017-09-01','collapse':'daily','api_key':'JqvQjVgJ5iSqKswfJ82M'}
+par = {'column_index':'4','start_date':'2017-08-08','end_date':'2017-09-08','collapse':'daily','api_key':'JqvQjVgJ5iSqKswfJ82M'}
 
 
 
@@ -40,13 +41,17 @@ def trendstock(): #remember the function name does not need to match the URL
     for i in range(len(dataset)):
         x.append(i)
         y.append(dataset[-i][1])
-    
+
+    df = pd.DataFrame(y)
+    yforplot = list()
+    for i in range(len(dataset)):
+        yforplot.append(df.ix[i,0])
 
     # create a new plot with a title and axis labels
     p = figure(title= app.ticker + ' stock price for the last month', x_axis_label='x', y_axis_label='y')
 
     # add a line renderer with legend and line thickness
-    p.line(x, y, legend="Stock price", line_width=2)
+    p.line(x, yforplot, legend="Stock price", line_width=2)
 
     # show the results
     #   show(p)
